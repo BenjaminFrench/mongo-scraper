@@ -3,7 +3,15 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var HeadlineSchema = new Schema({
-    name: {
+    title: {
+        type: String,
+        unique: true
+    },
+    summary: {
+        type: String,
+        unique: true
+    },
+    url: {
         type: String,
         unique: true
     },
