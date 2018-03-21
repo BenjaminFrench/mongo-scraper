@@ -1,0 +1,1 @@
+var Note = require('../models/Note');

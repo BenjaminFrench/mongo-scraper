@@ -13,6 +13,9 @@ var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
 
+// Require routes
+var index = require('./routes/index');
+
 // Configure middleware
 
 // Use morgan logger for logging requests
@@ -36,9 +39,10 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, {
-    useMongoClient: true
-});
+mongoose.connect(MONGODB_URI);
+
+// use routes
+app.use('/', index);
 
 // Start the server
 app.listen(PORT, function () {
