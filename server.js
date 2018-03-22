@@ -3,7 +3,6 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
@@ -15,6 +14,7 @@ var app = express();
 
 // Require routes
 var index = require('./routes/index');
+var api = require('./routes/api');
 
 // Configure middleware
 
@@ -43,6 +43,7 @@ mongoose.connect(MONGODB_URI);
 
 // use routes
 app.use('/', index);
+app.use('/api', api);
 
 // Start the server
 app.listen(PORT, function () {
