@@ -26,13 +26,28 @@ exports.scrape_get = function (req, res) {
         });
         console.log(`Scraped ${results.length} articles.`);
 
-        Headline.create(results)
+        // var totalAdded = 0;
+        // reuslts.forEach(element => {
+        //     Headline.create(element)
+        //     .then(dbHeadline => {
+        //         totalAdded++;
+        //     })
+        //     .catch(err => {
+        //         res.status(500).end();
+        //     });
+        // });
+        Headline.insertMany(results, {ordered: false})
         .then( dbHeadline => {
             console.log(`Added ${dbHeadline.length} articles to DB.`);
-            res.status(201).end();
+            res.status(201);
+            res.json(dbHeadline);
         })
-        .catch( err => {
+        .catch ( err => {
+            console.log(`Added ${err.result.nInserted} articles to DB.`);
+            console.log(`Did not add ${err.result.getWriteErrorCount()} articles already exist in DB.`);
             res.status(500).end();
         });
+
+        
     });
 };
