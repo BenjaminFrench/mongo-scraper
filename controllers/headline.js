@@ -6,3 +6,13 @@ exports.headlines_get = function (req, res) {
         res.json(dbHeadline);
     });
 };
+
+exports.headlines_get_html = function (req, res) {
+    Headline.find({})
+    .then( dbHeadline => {
+        var hbsObject = {
+            headlines: dbHeadline
+        };
+        res.render("home", hbsObject);
+    });
+};
