@@ -1,0 +1,25 @@
+{{#each headlines}}
+<div class="card headline-card">
+    <div class="card-header">
+    <ul class="nav nav-tabs nav-fill card-header-fill card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home-{{id}}">Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#notes-{{id}}">Notes</a>
+      </li>
+    </ul>
+  </div>
+    <div class="card-body tab-content">
+        <div class="tab-pane active" id="home-{{id}}" role="tabpanel" aria-labelledby="home-tab">
+          <h5 class="card-title"><a target="_blank" href="{{url}}">{{title}}</a></h5>
+          <p class="card-text">{{summary}}</p>
+          <a href="#" class="btn btn-primary">Comment</a>
+        </div>
+        <div class="tab-pane" id="notes-{{id}}" role="tabpanel" aria-labelledby="home-tab">
+          <p class="card-text">{{notes}}</p>
+          <a href="#" class="btn btn-primary">Comment</a>
+        </div>
+    </div>
+</div>
+{{/each}}
