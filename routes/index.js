@@ -1,13 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+var headline_controller = require('../controllers/headline');
+
 // GET home page.
-router.get('/', function (req, res) {
-    // res.redirect('/');
-    var hbsObject = {
-        
-    };
-    res.render("home", hbsObject);
-});
+router.get('/', headline_controller.headlines_get_html);
 
 module.exports = router;
