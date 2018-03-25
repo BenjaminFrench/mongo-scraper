@@ -1,0 +1,11 @@
+.headline-card {
+    margin-bottom: 25px;
+}
+
+.headline-card:first-child {
+    margin-top: 20px;
+}
+
+.headline-card:last-child {
+    margin-bottom: 0px;
+}
