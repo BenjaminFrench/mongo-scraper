@@ -14,12 +14,101 @@
         <div class="tab-pane active" id="home-{{id}}" role="tabpanel" aria-labelledby="home-tab">
           <h5 class="card-title"><a target="_blank" href="{{url}}">{{title}}</a></h5>
           <p class="card-text">{{summary}}</p>
-          <a href="#" class="btn btn-primary">Comment</a>
+          <a href="#" class="btn btn-primary add-note-btn" data-id="{{id}}">Add note</a>
         </div>
         <div class="tab-pane" id="notes-{{id}}" role="tabpanel" aria-labelledby="home-tab">
-          <p class="card-text">{{notes}}</p>
-          <a href="#" class="btn btn-primary">Comment</a>
+          <div class="notes-container list-group">
+            {{#each notes}}
+              <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="mb-1">{{title}}</h5>
+                </div>
+                <p class="mb-1">{{body}}</p>
+              </div>
+            {{/each}}
+          </div>
+          <a href="#" class="btn btn-primary add-note-btn" data-id="{{id}}">Add note</a>
         </div>
     </div>
 </div>
 {{/each}}
+<div id="new-note-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New note</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <textarea name="title" class="form-control" id="note-form-title" placeholder="Enter a title for your note" type="text" rows="1"></textarea>
+        </div>
+        <br>
+        <div>
+          <textarea name="text" class="form-control" id="note-form-body" rows="5" placeholder="Enter note here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="note-modal-submit" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="scrape-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Scrape results</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id='scrape-modal-result'></p>
+      </div>
+      <div class="modal-footer">
+        <button id="scrape-reload-btn" type="button" class="btn btn-secondary" data-dismiss="modal">Reload</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(".add-note-btn").on("click", function (event) {
+        event.preventDefault();
+        var headlineId = $(this).data('id');
+        $('#new-note-modal').modal('show');
+        $('#note-modal-submit').on('click', function (event) {
+          var note = {};
+          note.title = $('#note-form-title').val().trim();
+          note.body = $('#note-form-body').val().trim();
+          fetch('/api/headlines/'+headlineId, {
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(note),
+            method: 'POST',
+          })
+          .then(response => {location.reload();})
+        })
+    });
+    $('#scrape-articles-btn').on('click', function (event) {
+      event.preventDefault();
+      fetch('/api/scrape/', {
+        method: 'GET',
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then( responseJson => {
+        $('#scrape-modal').modal('show');
+        $('#scrape-modal-result').text(`Added ${responseJson.totalAdded} new articles.`);
+        $('#scrape-reload-btn').on('click', function (event) {
+          location.reload();
+        });
+        console.log(responseJson);
+      })
+    });
+</script>

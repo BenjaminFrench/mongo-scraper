@@ -12,4 +12,6 @@ router.get('/headlines', headline_controller.headlines_get);
 // scrape data into DB
 router.get('/scrape', fetch_controller.scrape_get);
 
+router.post('/headlines/:id', note_controller.note_post);
+
 module.exports = router;

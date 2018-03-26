@@ -25,7 +25,8 @@ exports.scrape_get =  function (req, res) {
 
         console.log(`Scraped ${results.length} articles.`);
 
-        Promise.all( results.map( (element) => Headline.create(element)).map(p => p.catch(e => e)) )
+        // Promise.all( results.map( (element) => Headline.create(element)).map(p => p.catch(e => e)) )
+        Promise.all( results.map( (element) => Headline.create(element).catch(e => e)))
         .then ( promises => {
             var totalAdded = 0;
             var notAdded = 0;

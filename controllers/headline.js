@@ -9,6 +9,7 @@ exports.headlines_get = function (req, res) {
 
 exports.headlines_get_html = function (req, res) {
     Headline.find({})
+    .populate('notes')
     .then( dbHeadline => {
         var hbsObject = {
             headlines: dbHeadline
